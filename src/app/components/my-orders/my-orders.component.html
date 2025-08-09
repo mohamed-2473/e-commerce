@@ -1,0 +1,166 @@
+<!-- my-orders.component.html -->
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <!-- Header -->
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+          <h2 class="fw-bold mb-1">
+            <i class="bi bi-bag-check me-2 text-primary"></i>
+            My Orders
+          </h2>
+          <p class="text-muted mb-0">Track and manage your order history</p>
+        </div>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">
+              <a routerLink="/home" class="text-decoration-none">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a routerLink="/profile" class="text-decoration-none">Profile</a>
+            </li>
+            <li class="breadcrumb-item active">My Orders</li>
+          </ol>
+        </nav>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="loading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3 text-muted">Loading your orders...</p>
+      </div>
+
+      <!-- No Orders State -->
+      <div *ngIf="!loading && orders.length === 0" class="text-center py-5">
+        <i class="bi bi-bag-x display-1 text-muted mb-3"></i>
+        <h4 class="mb-3">No Orders Found</h4>
+        <p class="text-muted mb-4">You haven't placed any orders yet. Start shopping to see your orders here!</p>
+        <a routerLink="/products" class="btn btn-primary btn-lg">
+          <i class="bi bi-shop me-2"></i>Start Shopping
+        </a>
+      </div>
+
+      <!-- Orders List -->
+      <div *ngIf="!loading && orders.length > 0" class="orders-container">
+        <div *ngFor="let order of orders" class="order-card card shadow-sm mb-4">
+          <!-- Order Header -->
+          <div class="card-header bg-light">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <div class="d-flex align-items-center">
+                  <h5 class="mb-0 me-3">Order {{ order.id }}</h5>
+                  <span class="badge rounded-pill" [ngClass]="getStatusBadgeClass(order.status)">
+                    <i [class]="getStatusIcon(order.status)" class="me-1"></i>
+                    {{ order.status | titlecase }}
+                  </span>
+                </div>
+                <small class="text-muted">
+                  <i class="bi bi-calendar3 me-1"></i>
+                  Ordered on {{ formatDate(order.orderDate) }}
+                </small>
+              </div>
+              <div class="col-md-4 text-md-end">
+                <div class="fw-bold text-primary fs-5">${{ order.totalAmount.toFixed(2) }}</div>
+                <small class="text-muted">{{ order.items.length }} item(s)</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order Items -->
+          <div class="card-body">
+            <div class="row">
+              <!-- Items List -->
+              <div class="col-lg-8">
+                <div class="order-items">
+                  <div *ngFor="let item of order.items" class="d-flex align-items-center mb-3 pb-3 border-bottom">
+                    <img [src]="item.image" [alt]="item.name" 
+                         class="rounded me-3" 
+                         style="width: 80px; height: 80px; object-fit: cover;">
+                    <div class="flex-grow-1">
+                      <h6 class="mb-1">{{ item.name }}</h6>
+                      <div class="d-flex align-items-center text-muted">
+                        <span class="me-3">
+                          <i class="bi bi-currency-dollar me-1"></i>
+                          {{ item.price.toFixed(2) }}
+                        </span>
+                        <span>
+                          <i class="bi bi-x me-1"></i>
+                          Qty: {{ item.quantity }}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="text-end">
+                      <div class="fw-semibold">${{ (item.price * item.quantity).toFixed(2) }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Order Details -->
+              <div class="col-lg-4">
+                <div class="border-start ps-4">
+                  <!-- Shipping Address -->
+                  <div class="mb-3">
+                    <h6 class="fw-semibold mb-2">
+                      <i class="bi bi-geo-alt me-1"></i>
+                      Shipping Address
+                    </h6>
+                    <address class="mb-0 text-muted small">
+                      {{ order.shippingAddress.street }}<br>
+                      {{ order.shippingAddress.city }}, {{ order.shippingAddress.state }}<br>
+                      {{ order.shippingAddress.zipCode }}<br>
+                      {{ order.shippingAddress.country }}
+                    </address>
+                  </div>
+
+                  <!-- Tracking Info -->
+                  <div *ngIf="order.trackingNumber" class="mb-3">
+                    <h6 class="fw-semibold mb-2">
+                      <i class="bi bi-truck me-1"></i>
+                      Tracking
+                    </h6>
+                    <p class="mb-1 small text-muted">{{ order.trackingNumber }}</p>
+                    <button class="btn btn-outline-primary btn-sm" 
+                            (click)="trackOrder(order.trackingNumber!)">
+                      <i class="bi bi-search me-1"></i>
+                      Track Package
+                    </button>
+                  </div>
+
+                  <!-- Estimated Delivery -->
+                  <div *ngIf="order.estimatedDelivery && order.status !== 'delivered'" class="mb-3">
+                    <h6 class="fw-semibold mb-2">
+                      <i class="bi bi-calendar-check me-1"></i>
+                      Estimated Delivery
+                    </h6>
+                    <p class="mb-0 small text-muted">{{ formatDate(order.estimatedDelivery) }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order Actions -->
+          <div class="card-footer bg-transparent">
+            <div class="d-flex flex-wrap gap-2 justify-content-end">
+              <button *ngIf="order.status === 'pending' || order.status === 'processing'" 
+                      class="btn btn-outline-danger btn-sm"
+                      (click)="cancelOrder(order.id)">
+                <i class="bi bi-x-circle me-1"></i>
+                Cancel Order
+              </button>
+              
+              <button class="btn btn-outline-primary btn-sm" 
+                      (click)="reorderItems(order)">
+                <i class="bi bi-arrow-repeat me-1"></i>
+                Reorder
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

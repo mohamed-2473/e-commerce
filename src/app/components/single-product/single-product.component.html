@@ -1,0 +1,118 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+@if (prodItem) {
+<div class="container py-5">
+  <div class="row">
+    <!-- Product Images -->
+    <div class="col-md-6">
+      <div class="card mb-4">
+        <img [src]="mainImage || prodItem.thumbnail" class="card-img-top product-thumbnail rounded" [alt]="prodItem.title">
+      </div>
+      <div class="product-gallery d-flex flex-wrap gap-2">
+        @for (image of prodItem.images; track $index) {
+        <div class="thumbnail-container position-relative">
+          <img [src]="image" class="img-thumbnail gallery-thumbnail rounded cursor-pointer" [alt]="prodItem.title + ' image ' + ($index + 1)" (click)="changeMainImage(image)" [class.active-thumbnail]="image === mainImage">
+          @if (image === mainImage) {
+          <div class="thumbnail-overlay"></div>
+          }
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Product Details -->
+    <div class="col-md-6">
+      <h2 class="product-title mb-3">
+        {{ prodItem.title }}
+      </h2>
+
+      <div class="product-badges d-flex align-items-center mb-3">
+        @if (prodItem.brand) {
+        <span class="badge bg-primary me-2">
+          {{ prodItem.brand }}</span>
+        }
+        <span class="badge bg-secondary">
+          {{ prodItem.category }}</span>
+      </div>
+
+      <div class="product-rating mb-3">
+        <span class="text-warning">
+          @for (star of getStarRating(prodItem.rating); track $index) {
+          <i class="bi" [class]="star"></i>
+          }
+        </span>
+        <span class="text-muted ms-2">(
+          {{ prodItem.rating }} rating,
+          {{ prodItem.stock }} in stock)</span>
+      </div>
+
+      <div class="product-price mb-4">
+        <h4 class="mb-2">
+          @if (prodItem.discountPercentage) {
+          <span class="text-danger">
+            {{ calculateDiscountedPrice(prodItem.price, prodItem.discountPercentage) | currency:'EGP' }}
+          </span>
+          <span class="text-decoration-line-through text-muted ms-2">
+            {{ prodItem.price | currency:'EGP' }}
+          </span>
+          <span class="badge bg-success ms-2">
+            Save
+            {{ prodItem.discountPercentage }}%
+          </span>
+          } @else {
+          <span>
+            {{ prodItem.price | currency:'EGP' }}</span>
+          }
+        </h4>
+      </div>
+
+      <p class="product-description mb-4">
+        {{ prodItem.description }}
+      </p>
+
+      @if (prodItem.colors && prodItem.colors.length > 0) {
+      <div class="mb-4">
+        <h5>Color:</h5>
+        <div class="btn-group" role="group" aria-label="Color selection">
+          @for (color of prodItem.colors; track $index) {
+          <input type="radio" class="btn-check" name="color" [id]="'color-' + $index" autocomplete="off" [checked]="color === selectedColor" (change)="selectedColor = color">
+          <label class="btn btn-outline-secondary" [for]="'color-' + $index" [style.backgroundColor]="color">
+            &nbsp;
+          </label>
+          }
+        </div>
+      </div>
+      }
+
+      <div class="product-actions mb-4 d-flex gap-2">
+        <button class="btn btn-primary flex-grow-1" [disabled]="prodItem.stock === 0" (click)="addToCartFromDetails(prodItem)">
+          <i class="bi bi-cart-plus"></i> Add to Cart
+        </button>
+        <button class="btn btn-outline-secondary flex-grow-1" (click)="navigateToProducts()">
+          <i class="bi bi-arrow-left"></i> Back to Products
+        </button>
+      </div>
+
+      @if (prodItem.features && prodItem.features.length > 0) {
+      <div class="mt-4">
+        <h5>Key Features:</h5>
+        <ul>
+          @for (feature of prodItem.features; track $index) {
+          <li>
+            {{ feature }}
+          </li>
+          }
+        </ul>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+} @else {
+<div class="container py-5 text-center">
+  <div class="alert alert-warning">
+    Product not found
+  </div>
+  <a routerLink="/" class="btn btn-primary">Back to Home Page</a>
+</div>
+}

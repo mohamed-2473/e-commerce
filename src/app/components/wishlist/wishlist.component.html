@@ -1,0 +1,75 @@
+<section class="py-5">
+  <div class="container">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <div class="row">
+          <!-- Wishlist Items Column -->
+          <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div>
+                <h5 class="mb-1 fw-bold">Your Wishlist</h5>
+                <p class="mb-0 text-muted fs-5">
+                  You have <span class="badge bg-primary fs-5">{{totalItems}}</span> items in your Wishlist
+                </p>
+              </div>
+              <a routerLink="/products" class="btn btn-outline-primary">
+                <i class="bi bi-arrow-left me-2"></i>Continue Shopping
+              </a>
+            </div>
+
+            <hr>
+
+            @if (isLoading) {
+              <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            } @else if (wishList.length === 0) {
+              <div class="text-center py-5">
+                <i class="bi bi-heart fs-1 text-muted mb-3"></i>
+                <h5 class="mb-3">Your wishlist is empty</h5>
+                <a routerLink="/products" class="btn btn-primary">Start Shopping</a>
+              </div>
+            } @else {
+              @for (item of wishList; track item.id) {
+                <div class="card mb-3 border-0 shadow-sm">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div class="d-flex flex-row align-items-center">
+                        <div class="me-3">
+                          <img [src]="item.thumbnail" 
+                               class="img-fluid rounded-3" 
+                               alt="Product image" 
+                               style="width: 100px; height: 100px; object-fit: cover;">
+                        </div>
+                        <div>
+                          <h6 class="mb-1 fs-4">{{item.title}}</h6>
+                          <p class="small text-muted mb-2 fs-5">{{item.brand}}</p>
+                          <p class="mb-0 text-primary fw-bold fs-4">${{item.price | number:'1.2-2'}}</p>
+                        </div>
+                      </div>
+                      <div class="d-flex flex-row align-items-center gap-2">
+                        <button (click)="moveToCart(item)" 
+                                class="btn btn-primary btn-sm"
+                                title="Move to cart">
+                          <i class="bi bi-cart-plus me-1"></i>Move to Cart
+                        </button>
+
+                        <button (click)="removeItemCompletely(item)" 
+                                class="btn btn-outline-danger btn-sm"
+                                title="Remove item">
+                          <i class="bi bi-trash-fill"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

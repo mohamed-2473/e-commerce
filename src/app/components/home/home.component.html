@@ -1,0 +1,205 @@
+<div class="container-fluid px-0">
+  <!-- Hero Section with Enhanced Design -->
+  <div class="hero-section position-relative vh-100">
+    <div class="hero-background"></div>
+    <div class="hero-overlay"></div>
+    <div class="container position-relative text-center py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <h1 class="display-3 fw-bold text-white mb-4 animate-fade-in">
+            Welcome to MyStore
+          </h1>
+          <p class="lead text-white mb-4 fs-4 animate-slide-up">
+            Discover premium products at unbeatable prices with exceptional service
+          </p>
+          <div class="hero-buttons animate-slide-up">
+            <a class="btn btn-primary btn-lg px-5 py-3 me-3 rounded-pill shadow-lg" routerLink="/products">
+              <i class="bi bi-bag-fill me-2"></i>Shop Now
+            </a>
+            <a class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill" routerLink="/about">
+              <i class="bi bi-info-circle me-2"></i>Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Section -->
+  <div class="stats-section bg-primary text-white py-4">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-3 col-6 mb-3 mb-md-0">
+          <h3 class="fw-bold mb-1">10K+</h3>
+          <p class="mb-0 opacity-75">Happy Customers</p>
+        </div>
+        <div class="col-md-3 col-6 mb-3 mb-md-0">
+          <h3 class="fw-bold mb-1">5K+</h3>
+          <p class="mb-0 opacity-75">Products</p>
+        </div>
+        <div class="col-md-3 col-6 mb-3 mb-md-0">
+          <h3 class="fw-bold mb-1">99.9%</h3>
+          <p class="mb-0 opacity-75">Uptime</p>
+        </div>
+        <div class="col-md-3 col-6">
+          <h3 class="fw-bold mb-1">24/7</h3>
+          <p class="mb-0 opacity-75">Support</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Enhanced Features Section -->
+  <div class="features-section py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold mb-3">Why Choose MyStore?</h2>
+        <p class="lead text-muted">Experience the difference with our premium services</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature-card card h-100 border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="card-body text-center p-5 position-relative">
+              <div class="feature-icon-wrapper mb-4">
+                <i class="bi bi-truck fs-1 text-primary feature-icon"></i>
+              </div>
+              <h3 class="h4 fw-bold mb-3">Lightning Fast Delivery</h3>
+              <p class="text-muted">Express delivery within 24-48 hours. Track your order in real-time and get updates every step of the way.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card card h-100 border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="card-body text-center p-5 position-relative">
+              <div class="feature-icon-wrapper mb-4">
+                <i class="bi bi-arrow-repeat fs-1 text-success feature-icon"></i>
+              </div>
+              <h3 class="h4 fw-bold mb-3">Hassle-Free Returns</h3>
+              <p class="text-muted">30-day return policy with free return shipping. No questions asked, full refund guaranteed.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card card h-100 border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="card-body text-center p-5 position-relative">
+              <div class="feature-icon-wrapper mb-4">
+                <i class="bi bi-shield-check fs-1 text-info feature-icon"></i>
+              </div>
+              <h3 class="h4 fw-bold mb-3">Bank-Level Security</h3>
+              <p class="text-muted">256-bit SSL encryption and PCI compliance ensure your data and payments are completely secure.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Enhanced Featured Products -->
+  <div class="featured-products-section bg-light py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold mb-3">Featured Products</h2>
+        <p class="lead text-muted">Handpicked items just for you</p>
+      </div>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col" *ngFor="let product of featuredProducts">
+          <div class="product-card card h-100 border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="position-relative">
+              <img [src]="product.image" class="card-img-top product-image" [alt]="product.name">
+              <span class="badge bg-primary position-absolute top-0 start-0 m-3 px-3 py-2 rounded-pill">
+                {{product.badge}}
+              </span>
+            </div>
+            <div class="card-body p-4">
+              <h5 class="card-title fw-bold mb-2">{{product.name}}</h5>
+              <p class="card-text text-muted mb-3">{{product.description}}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="h4 text-primary fw-bold mb-0">${{product.price}}</span>
+                <a routerLink="/products" class="btn btn-outline-primary rounded-pill px-4">
+                  View Details
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-5">
+        <a routerLink="/products" class="btn btn-primary btn-lg px-5 py-3 rounded-pill">
+          <i class="bi bi-grid me-2"></i>View All Products
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer Testimonials -->
+  <div class="testimonials-section py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold mb-3">What Our Customers Say</h2>
+        <p class="lead text-muted">Don't just take our word for it</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4" *ngFor="let testimonial of testimonials">
+          <div class="testimonial-card card h-100 border-0 shadow-lg rounded-4 p-4">
+            <div class="card-body text-center">
+              <img [src]="testimonial.avatar" [alt]="testimonial.name" 
+                   class="rounded-circle mb-3 testimonial-avatar">
+              <div class="mb-3">
+                <i class="bi bi-star-fill text-warning" 
+                   *ngFor="let star of getStarArray(testimonial.rating)"></i>
+              </div>
+              <p class="card-text mb-3 fst-italic">"{{testimonial.comment}}"</p>
+              <h6 class="fw-bold text-primary mb-0">{{testimonial.name}}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Newsletter Section -->
+  <div class="newsletter-section bg-gradient py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+          <h2 class="display-6 fw-bold text-white mb-3">Stay Updated</h2>
+          <p class="lead text-white mb-4 opacity-75">
+            Subscribe to our newsletter and be the first to know about new products and exclusive offers
+          </p>
+          <div class="newsletter-form d-flex justify-content-center">
+            <div class="input-group" style="max-width: 400px;">
+              <input type="email" class="form-control form-control-lg rounded-start-pill border-0" 
+                     placeholder="Enter your email" #emailInput>
+              <button class="btn btn-light btn-lg rounded-end-pill px-4" type="button"
+                      (click)="onSubscribeNewsletter(emailInput.value)">
+                <i class="bi bi-envelope-fill me-2"></i>Subscribe
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Enhanced Call to Action -->
+  <div class="cta-section bg-primary text-white py-5">
+    <div class="container text-center py-4">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <h2 class="display-6 fw-bold mb-4">Ready to Start Shopping?</h2>
+          <p class="lead mb-4 opacity-75">
+            Join thousands of satisfied customers and discover amazing products at unbeatable prices
+          </p>
+          <div class="cta-buttons">
+            <a routerLink="/products" class="btn btn-light btn-lg px-5 py-3 me-3 rounded-pill shadow">
+              <i class="bi bi-bag-fill me-2"></i>Shop Now
+            </a>
+            <a routerLink="/register" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill">
+              <i class="bi bi-person-plus me-2"></i>Sign Up Today
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

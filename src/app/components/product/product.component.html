@@ -1,0 +1,50 @@
+<!-- product.component.html -->
+<div class="card h-100 product-card">
+  <div class="position-relative">
+    <a [routerLink]="['/single-product', productItem.id]">
+      <img [src]="productItem.thumbnail" class="card-img-top" [alt]="productItem.title">
+    </a>
+    @if (productItem.stock === 0) {
+    <span class="position-absolute top-0 start-0 badge bg-danger m-2">Out of stock</span>
+    } @else {
+    <span class="position-absolute top-0 start-0 badge bg-success m-2">In stock</span>
+    }
+  </div>
+  <div class="card-body d-flex flex-column p-3">
+    <div class="d-flex justify-content-between align-items-center mb-2 bg-light p-2 rounded">
+      <h5 class="card-title mb-0 fs-6 text-truncate">
+        {{ productItem.title }}
+      </h5>
+      <span class="badge bg-primary rounded-pill">
+        {{ productItem.price | currency:'EGP' }}</span>
+    </div>
+
+    <div class="mb-2">
+      @if (productItem.brand) {
+      <span class="badge bg-secondary me-1">
+        {{ productItem.brand }}</span>
+      }
+      <span class="badge bg-info">
+        {{ productItem.category }}</span>
+    </div>
+
+    <div class="mb-2">
+      <span class="text-warning">★
+        {{ productItem.rating }}</span>
+    </div>
+
+    <p class="card-text text-muted small mb-2 text-truncate">
+      {{ productItem.description }}
+    </p>
+
+    <div class="d-flex gap-2 mt-auto">
+      <button class="btn btn-primary rounded-pill py-1 btn-sm" [disabled]="productItem.stock === 0" (click)="addToCart()" style="width: 120px;">
+        <i class="bi bi-cart-plus me-1"></i>Add to cart
+      </button>
+
+      <button class="btn btn-danger rounded-pill py-1 btn-sm" (click)="addToWishlist()" style="width: 120px;">
+        <i class="bi bi-heart me-1"></i>Add to wishlist
+      </button>
+    </div>
+  </div>
+</div>

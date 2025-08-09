@@ -1,0 +1,150 @@
+<!-- products-list.component.html -->
+<div class="container mt-4">
+  <!-- Loading and Error States -->
+  @if (isLoading) {
+  <div class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading products...</p>
+  </div>
+  }
+  @else if (error) {
+  <div class="alert alert-danger text-center">
+    {{ error }}
+    <button class="btn btn-sm btn-outline-danger ms-3" (click)="loadProducts()">Retry</button>
+  </div>
+  }
+  @else {
+  <!-- Search and Filters Section -->
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card p-3">
+        <div class="row g-3">
+          <!-- Search -->
+          <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Search by name or category" [(ngModel)]="searchTerm" (input)="applyFilters()">
+          </div>
+
+          <!-- Category Filter -->
+          <div class="col-md-2">
+            <select class="form-select" [(ngModel)]="selectedCategory" (change)="applyFilters()">
+              <option value="">All Categories</option>
+              @for (category of categories; track $index) {
+              <option [value]="category">
+                {{ category }}
+              </option>
+              }
+            </select>
+          </div>
+
+          <!-- Brand Filter -->
+          <div class="col-md-2">
+            <select class="form-select" [(ngModel)]="selectedBrand" (change)="applyFilters()">
+              <option value="">All Brands</option>
+              @for (brand of brands; track $index) {
+              <option [value]="brand">
+                {{ brand }}
+              </option>
+              }
+            </select>
+          </div>
+
+          <!-- Price Range -->
+          <div class="col-md-2">
+            <input type="number" class="form-control" placeholder="Min price" [(ngModel)]="minPrice" (change)="applyFilters()">
+          </div>
+          <div class="col-md-2">
+            <input type="number" class="form-control" placeholder="Max price" [(ngModel)]="maxPrice" (change)="applyFilters()">
+          </div>
+
+          <!-- Reset Button -->
+          <div class="col-md-2">
+            <button class="btn btn-outline-secondary w-100" (click)="resetFilters()">
+              Reset Filters
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Products Grid -->
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+    @for (product of paginatedProducts; track product.id) {
+    <div class="col">
+      <app-product [productItem]="product"></app-product>
+    </div>
+    }
+  </div>
+
+  <!-- Products Count -->
+  <div class="row mb-3">
+    <div class="col-md-12">
+      <div class="alert alert-info">
+        Showing
+        {{ paginatedProducts.length }} of
+        {{ filteredProducts.length }} products
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  @if (totalPages > 1) {
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center" style="cursor: pointer;">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <a class="page-link" (click)="changePage(currentPage - 1)">Previous</a>
+          </li>
+
+          @for (page of [].constructor(totalPages); track $index) {
+          <li class="page-item" [class.active]="currentPage === $index + 1">
+            <a class="page-link" (click)="changePage($index + 1)">
+              {{ $index + 1 }}</a>
+          </li>
+          }
+
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <a class="page-link" (click)="changePage(currentPage + 1)">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  }
+
+  <!-- No Results Message -->
+  @if (filteredProducts.length === 0 && !isLoading) {
+  <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-warning text-center">
+        No products found matching your criteria
+      </div>
+    </div>
+  </div>
+  }
+  }
+
+  <!-- Add this just before the closing </div> of the container -->
+  <div class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="footer-links">
+            <a href="/about">About Us</a>
+            <a href="/contact">Contact</a>
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+            <a href="/faq">FAQ</a>
+          </div>
+          <div class="copyright">
+            &copy;
+            {{ currentYear }} Your Company Name. All rights reserved.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

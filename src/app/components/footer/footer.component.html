@@ -1,0 +1,87 @@
+<footer class="footer bg-dark text-white pt-5 pb-4">
+  <div class="container">
+    <div class="row g-4">
+      <!-- About Column -->
+      <div class="col-lg-4 mb-4 mb-lg-0">
+        <div class="footer-brand d-flex align-items-center mb-3">
+          <i class="bi bi-shop fs-3 text-primary me-2"></i>
+          <span class="h4 mb-0 fw-bold text-white">MyStore</span>
+        </div>
+        <p class="text-muted mb-4">
+          Your one-stop shop for all your needs. We offer high-quality products with exceptional customer service.
+        </p>
+        <div class="social-links d-flex gap-3">
+          @for (social of socialLinks; track social.icon) {
+            <a [href]="social.url" class="social-link">
+              <i [class]="'bi ' + social.icon"></i>
+            </a>
+          }
+        </div>
+      </div>
+
+      <!-- Quick Links Column -->
+      <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
+        <h5 class="text-uppercase fw-bold mb-4">Quick Links</h5>
+        <ul class="list-unstyled">
+          @for (link of quickLinks; track link.path) {
+            <li class="mb-2">
+              <a [routerLink]="link.path" class="text-muted text-decoration-none hover-primary">
+                {{ link.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <!-- Categories Column -->
+      <div class="col-md-4 col-lg-2 mb-4 mb-md-0">
+        <h5 class="text-uppercase fw-bold mb-4">Categories</h5>
+        <ul class="list-unstyled">
+          @for (category of categories; track category.path) {
+            <li class="mb-2">
+              <a [routerLink]="category.path" class="text-muted text-decoration-none hover-primary">
+                {{ category.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <!-- Contact Column -->
+      <div class="col-md-4 col-lg-4">
+        <h5 class="text-uppercase fw-bold mb-4">Contact Us</h5>
+        <ul class="list-unstyled text-muted">
+          <li class="mb-3 d-flex">
+            <i class="bi bi-geo-alt-fill text-primary me-3 mt-1"></i>
+            <span>{{ contactInfo.address }}</span>
+          </li>
+          <li class="mb-3 d-flex">
+            <i class="bi bi-telephone-fill text-primary me-3 mt-1"></i>
+            <span>{{ contactInfo.phone }}</span>
+          </li>
+          <li class="mb-3 d-flex">
+            <i class="bi bi-envelope-fill text-primary me-3 mt-1"></i>
+            <span>{{ contactInfo.email }}</span>
+          </li>
+          <li class="d-flex">
+            <i class="bi bi-clock-fill text-primary me-3 mt-1"></i>
+            <span>{{ contactInfo.hours }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="my-4 bg-secondary">
+
+    <div class="row align-items-center">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <p class="mb-0 text-muted">
+          &copy; {{ currentYear }} MyStore. All rights reserved.
+        </p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <img src="assets/images/payment-methods.png" alt="Payment Methods" class="img-fluid" style="max-height: 30px;">
+      </div>
+    </div>
+  </div>
+</footer>
